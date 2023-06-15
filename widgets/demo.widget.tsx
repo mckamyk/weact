@@ -1,11 +1,12 @@
 import {useState} from "preact/hooks"
-import React from "react";
+import type {FC} from "react";
+import Child from './child.js'
 
 interface Foobar {
 	test: string;
 }
 
-const DemoWidget: React.FC<Foobar> = ({test}: {test: string}) => {
+const DemoWidget: FC<Foobar> = ({test}: {test: string}) => {
 	const [count, setCount] = useState(0);
 
 	return (
@@ -14,6 +15,7 @@ const DemoWidget: React.FC<Foobar> = ({test}: {test: string}) => {
 
 			<div>Count: {count}</div>
 			<button onClick={() => setCount(count+1)}>Click Me!</button>
+			<Child me="from parent" />
 		</div>
 	)
 }

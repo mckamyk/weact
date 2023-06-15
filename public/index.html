@@ -7,8 +7,9 @@
 <body>
 	<script type="module">
 		const path = '/widgets/demo.js'
-		const widget = import(path);
-		import { createElement, render, LitElement, html } from "/utils/mounter.js"
+		const widget = import(path).then(w => w.default);
+		import { createElement, render } from "/utils/mounter.js"
+		import { LitElement, html } from "/utils/litWrapper.js"
 
 		class TestElement extends LitElement {
 			static properties = {
@@ -19,19 +20,13 @@
 				return this.shadowRoot.getElementById("container")
 			}
 
-			constructor() {
-				super()
-				this.w = widget.then(w => w.default);
-				this.preactRender()
-			}
-
 			updated() {
 				this.preactRender()
 			}
 
 			async preactRender() {
-				const widget = await this.w
-				const pel = createElement(widget, { test: this.test })
+				const w = await widget
+				const pel = createElement(w, { test: this.test })
 				render(pel, this.container)
 			}
 

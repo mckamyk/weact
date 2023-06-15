@@ -6,7 +6,7 @@
   "bin": "NODE_OPTIONS='--loader ts-node/esm' src/bundle.ts",
   "main": "src/bundle.ts",
   "scripts": {
-    "build": "ts-node src/bundle.ts"
+    "build": "ts-node scripts/bundle.ts"
   },
   "dependencies": {
     "@types/node": "^20.2.5",

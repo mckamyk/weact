@@ -6,8 +6,10 @@ import { preact } from '@preact/preset-vite'
 import typescript from '@rollup/plugin-typescript'
 
 export const buildWidgets = async () => {
-	const widgets = await glob(appRoot.path + "/src/widgets/**/*.widget.tsx");
-	widgets.push(path.join("src", "mounter.ts"))
+	const entries = await glob("widgets/**/*.widget.tsx");
+	entries.push(path.join("scripts", "mounter.ts"))
+	entries.push(path.join("scripts", "litWrapper.ts"))
+
 
 	build({
 		plugins: [
@@ -20,24 +22,25 @@ export const buildWidgets = async () => {
 			sourcemap: true,
 			outDir: path.resolve(appRoot.toString(), 'dist'),
 			lib: {
-				entry: widgets,
+				entry: entries,
 				formats: ['es'],
 			},
 			rollupOptions: {
 				output: {
 					entryFileNames: ({ facadeModuleId }) => {
 						if (facadeModuleId?.includes(".widget.tsx"))
-							return facadeModuleId!.replace(appRoot.path + "/src/widgets/", "widgets/").replace(".widget.tsx", '.js')
+							return facadeModuleId!.replace(appRoot.path + "/widgets/", "widgets/").replace(".widget.tsx", '.js')
 						else
 							return 'utils/[name].js'
 					},
-					format: 'es',
 					manualChunks: {
-						"utils/preact": ["preact", "preact/compat", "preact/hooks", "preact/jsx-runtime"],
-						"utils/lit": ["lit"]
+						preact: ['preact'],
+						'jsx-runtime': ['preact/jsx-runtime'],
+						'preact-compat': ['preact/compat']
 					},
+					format: 'es',
 					minifyInternalExports: false,
-					chunkFileNames: '[name].js'
+					chunkFileNames: 'utils/[name].js'
 				},
 			}
 		},
