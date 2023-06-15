@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import {useState} from "preact/hooks";
 
-export const DemoWidget = () => {
+const FooWidget = () => {
 	const [count, setCount] = useState(0);
 
 	return (
 		<div>
-			<div>Hello from React!</div>
+			<div>Hello from FooWidget!</div>
 
 			<div>Count: {count}</div>
 			<button onClick={() => setCount(count+1)}>Click Me!</button>
 		</div>
 	)
 }
+
+export default FooWidget

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<head>
+
+</head>
+
+<body>
+	<script type="module">
+		const path = '/widgets/demo.js'
+		const widget = import(path);
+		import { createElement, render, LitElement, html } from "/utils/mounter.js"
+
+		class TestElement extends LitElement {
+			static properties = {
+				test: { type: String }
+			}
+
+			get container() {
+				return this.shadowRoot.getElementById("container")
+			}
+
+			constructor() {
+				super()
+				this.w = widget.then(w => w.default);
+				this.preactRender()
+			}
+
+			updated() {
+				this.preactRender()
+			}
+
+			async preactRender() {
+				const widget = await this.w
+				const pel = createElement(widget, { test: this.test })
+				render(pel, this.container)
+			}
+
+			render() {
+				return html`
+					<div id="container"></div>
+				`;
+			}
+		}
+
+		customElements.define("test-el", TestElement)
+	</script>
+	<div>hi</div>
+	<test-el test="hi there" />
+</body>
