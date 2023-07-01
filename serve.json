@@ -1,0 +1,14 @@
+{
+	"headers": [
+		{
+			"source": "widgets/**/*",
+			"headers": [
+				{
+					"key": "content-type",
+					"value": "application/javascript"
+				}
+			]
+		}
+	],
+	"public": "dist"
+}

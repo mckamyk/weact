@@ -15,7 +15,7 @@ export const buildWidgets = async () => {
 		plugins: [
 			//@ts-ignore
 			typescript(),
-			preact()
+			preact(),
 		],
 
 		build: {
@@ -26,10 +26,12 @@ export const buildWidgets = async () => {
 				formats: ['es'],
 			},
 			rollupOptions: {
+				plugins: [
+				],
 				output: {
 					entryFileNames: ({ facadeModuleId }) => {
 						if (facadeModuleId?.includes(".widget.tsx"))
-							return facadeModuleId!.replace(appRoot.path + "/widgets/", "widgets/").replace(".widget.tsx", '.js')
+							return facadeModuleId!.replace(appRoot.path + "/widgets/", "widgets/").replace(".widget.tsx", '')
 						else
 							return 'utils/[name].js'
 					},

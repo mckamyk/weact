@@ -6,14 +6,22 @@
 
 <body>
 	<script type="module">
-		const path = '/widgets/demo.js'
-		const widget = import(path).then(w => w.default);
+		const widgetHost = "http://localhost:3000"
+		const widgetPath = 'demo'
+		const widget = import(`${widgetHost}/widgets/${widgetPath}`).then(w => w.default);
 		import { createElement, render } from "/utils/mounter.js"
-		import { LitElement, html } from "/utils/litWrapper.js"
+		import { LitElement, html, css } from "/utils/litWrapper.js"
 
 		class TestElement extends LitElement {
 			static properties = {
 				test: { type: String }
+			}
+
+			connectedCallback() {
+				super.connectedCallback()
+				this.shadowRoot.innerHTML = `
+					<link rel="stylesheet" href="/style.css" />
+				`
 			}
 
 			get container() {
@@ -39,6 +47,7 @@
 
 		customElements.define("test-el", TestElement)
 	</script>
-	<div>hi</div>
-	<test-el test="hi there" />
+	<div class="bg-slate-200">hi</div>
+	<test-el test="hi there"></test-el>
+	<test-el test="second el"></test-el>
 </body>

@@ -4,7 +4,7 @@ const FooWidget = () => {
 	const [count, setCount] = useState(0);
 
 	return (
-		<div>
+		<div className="bg-slate-200">
 			<div>Hello from FooWidget!</div>
 
 			<div>Count: {count}</div>
